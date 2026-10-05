@@ -33,7 +33,7 @@ Feature:  Yo como tester evaluar la transición de estados de un control de inte
     * match response == { error: 'Invalid transition: the switch is already on' }
 
 
-  @startOn @Issue-2
+  @startOn
   Scenario: Verificar que el interruptor puede encenderse
     * def response = call read('@smoketest')
     * eval if (response.state == 'off') karate.call(read('@doOn'))
