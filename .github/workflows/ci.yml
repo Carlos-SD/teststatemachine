@@ -194,7 +194,7 @@ jobs:
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             "$ISSUES_API/comments" \
-            -d "{\"body\": $(echo "$COMMENT_BODY" | jq -R .)}" \
+            -d "{\"body\": $(echo "$COMMENT_BODY" | jq -Rs .)}" \
             -o /dev/null
 
           echo "✅ Issue #$ISSUE_NUMBER updated successfully!"
