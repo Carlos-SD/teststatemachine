@@ -138,15 +138,18 @@ jobs:
           # Determinar label y emoji según estado
           case "$TEST_STATUS" in
             "passed")
-              STATUS_LABEL="status:passed"
+              STATUS_LABEL="automated-passed"
+              NEW_LABELS='["automated-passed"]'
               STATUS_EMOJI="✅"
               ;;
             "failed")
-              STATUS_LABEL="status:failed"
+              STATUS_LABEL="automated-failed"
+              NEW_LABELS='["automated-failed","bug"]'
               STATUS_EMOJI="❌"
               ;;
             *)
-              STATUS_LABEL="status:unknown"
+              STATUS_LABEL="automated-failed"
+              NEW_LABELS='["automated-failed"]'
               STATUS_EMOJI="⚠️"
               ;;
           esac
@@ -159,9 +162,9 @@ jobs:
           echo "Fetching current labels from Issue #$ISSUE_NUMBER..."
           CURRENT_LABELS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "$ISSUES_API" | jq -r '.labels[].name')
 
-          # Remover labels anteriores de estado (status:*)
+          # Remover labels anteriores de estado (automated-*)
           for label in $CURRENT_LABELS; do
-            if [[ $label == status:* ]]; then
+            if [[ $label == automated-* ]]; then
               echo "  Removing label: $label"
               curl -s -X DELETE \
                 -H "Authorization: token $GITHUB_TOKEN" \
@@ -171,12 +174,12 @@ jobs:
           done
 
           # Agregar nuevo label
-          echo "Adding new label: $STATUS_LABEL"
+          echo "Adding new labels: $NEW_LABELS"
           curl -s -X POST \
             -H "Authorization: token $GITHUB_TOKEN" \
             -H "Content-Type: application/json" \
             "$LABELS_API" \
-            -d "[\"$STATUS_LABEL\"]" \
+            -d "$NEW_LABELS" \
             -o /dev/null
 
           # Agregar comentario
