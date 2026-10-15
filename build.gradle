@@ -25,3 +25,7 @@ test {
     systemProperty "karate.options", System.getProperty("karate.options")
 
 }
+
+clean {
+    delete 'target'
+}

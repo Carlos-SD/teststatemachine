@@ -15,6 +15,7 @@ public class cajanegra2runner {
    @Test
    void testParallel() {
        Results results = Runner.path("classpath:features")
+               .reportDir("target/karate-reports") // Reportes HTML en target/karate-reports
                .outputCucumberJson(true) // <--- AQUÍ SE CONFIGURA
                .parallel(1);             // Define el número de hilos concurrentes
 

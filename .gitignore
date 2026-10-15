@@ -30,3 +30,6 @@ build/
 ## github ##
 .github/*.md
 .github/scripts
+
+## eclipse / vscode java output ##
+bin/
